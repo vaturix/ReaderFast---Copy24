@@ -1,0 +1,71 @@
+﻿@model ReaderFast.webui.ViewModels.ExerciseViewModel
+
+@{
+    ViewData["Title"] = "Create Exercise";
+}
+
+<h1>Create Exercise</h1>
+
+<form asp-action="CreateExercise" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsPremium" />
+        <label class="form-check-label" asp-for="IsPremium"></label>
+        <span asp-validation-for="IsPremium" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsCompleted" />
+        <label class="form-check-label" asp-for="IsCompleted"></label>
+        <span asp-validation-for="IsCompleted" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ViewName" class="control-label"></label>
+        <input asp-for="ViewName" class="form-control" />
+        <span asp-validation-for="ViewName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+
+<!-- Egzersiz Listesi -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>IsPremium</th>
+            <th>IsCompleted</th>
+            <th>ViewName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exercise in Model.Exercises)
+        {
+            <tr>
+                <td>@exercise.Id</td>
+                <td>@exercise.Name</td>
+                <td>@exercise.Description</td>
+                <td>@exercise.IsPremium</td>
+                <td>@exercise.IsCompleted</td>
+                <td>@exercise.ViewName</td>
+                <td>
+                    <a asp-action="EditExercise" asp-route-id="@exercise.Id" class="btn btn-primary">Edit</a> |
+                    <a asp-action="DeleteExercise" asp-route-id="@exercise.Id" class="btn btn-danger">Delete</a> <!-- Delete butonu eklendi -->
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

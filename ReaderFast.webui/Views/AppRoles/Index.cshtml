@@ -1,0 +1,23 @@
+﻿
+<a class="mt-5" href="@Url.Action("Create", "AppRoles")" class="btn btn-primary">Create Role</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Email</td>
+                <td>@item.Role</td>
+                <td>
+                    <a href="@Url.Action("UpdateRole", "AppRoles", new { userId = item.UserId })" class="btn btn-primary">Update Role</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register Confirmation";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h1 class="card-title text-center mb-4">@ViewData["Title"]</h1>
+                    @if (Model.DisplayConfirmAccountLink)
+                    {
+                        <p class="text-center">Check your e-mail box and click on the link in the sent e-mail to confirm your e-mail.</p>
+                        
+                    }
+                    else
+                    {
+                        <p class="text-center">Please check your email to confirm your account. If you do not see the email, be sure to check your spam or junk folder.</p>
+                    }
+                    <div class="mt-4 text-center">
+                        <a href="/" class="btn btn-primary">Home</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-3">If the email is in your spam or junk folder, marking it as "Not Spam" can help ensure future communications arrive in your inbox.</p>
+        </div>
+    </div>
+</div>

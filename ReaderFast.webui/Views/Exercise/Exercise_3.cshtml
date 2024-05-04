@@ -1,0 +1,146 @@
+@{
+    Layout = "~/Views/Shared/_ExerciseLayout.cshtml";
+}
+
+
+
+
+
+<div>
+    <div id="container">
+        <div id="circle"></div>
+    </div>
+    <br>
+    <div class="time-settings">
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" value="2" min="0" max="20" style="margin-right: 0px;">
+        <label for="seconds">:</label>
+        <input type="number" id="seconds" value="00" min="0" max="59">
+    </div>
+    <div class="speed-control">
+        <label for="speedRange">Speed:</label>
+        <span id="speedValue">5</span>
+        <input type="range" id="speedRange" min="1" max="10" value="5" style="flex-grow: 1;">
+    </div>
+    <br>
+    <button id="startButton">Start</button>
+    <button id="toggleButton" style="display: none;">Stop</button>
+    <div id="timerStatus">Remaining time: </div>
+</div>
+
+<script>
+    let circle = document.getElementById('circle');
+    let container = document.getElementById('container');
+    let startButton = document.getElementById('startButton');
+    let toggleButton = document.getElementById('toggleButton');
+    let speedRange = document.getElementById('speedRange');
+    let speedValue = document.getElementById('speedValue');
+    let timerStatus = document.getElementById('timerStatus');
+    let minutesInput = document.getElementById('minutes');
+    let secondsInput = document.getElementById('seconds');
+    let isPlaying = false;
+    let remainingTime = 0;
+    let countdownInterval;
+    let movementInterval;
+
+        const points = [
+            { x: 0, y: 0 },
+            { x: (container.clientWidth - circle.clientWidth) / 2, y: 0 },
+            { x: container.clientWidth - circle.clientWidth, y: 0 },
+            { x: 0, y: (container.clientHeight - circle.clientHeight) / 2 },
+            { x: (container.clientWidth - circle.clientWidth) / 2, y: (container.clientHeight - circle.clientHeight) / 2 },
+            { x: container.clientWidth - circle.clientWidth, y: (container.clientHeight - circle.clientHeight) / 2 },
+            { x: 0, y: container.clientHeight - circle.clientHeight },
+            { x: (container.clientWidth - circle.clientWidth) / 2, y: container.clientHeight - circle.clientHeight },
+            { x: container.clientWidth - circle.clientWidth, y: container.clientHeight - circle.clientHeight }
+        ];
+
+        let currentPoint = 0;
+
+    function moveCircle() {
+        circle.style.left = points[currentPoint].x + "px";
+        circle.style.top = points[currentPoint].y + "px";
+        currentPoint++;
+        if (currentPoint >= points.length) currentPoint = 0;
+    }
+
+    function updateMovementInterval() {
+        clearInterval(movementInterval);
+        if (isPlaying) {
+            movementInterval = setInterval(moveCircle, (11 - speedRange.value) * 100);
+        }
+    }
+
+    function updateTimerDisplay() {
+        let minutes = Math.floor(remainingTime / 60000);
+        let seconds = Math.floor((remainingTime % 60000) / 1000);
+        timerStatus.textContent = `Remaining time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startExercise() {
+        if (!isPlaying) {
+            isPlaying = true;
+            toggleButton.textContent = 'Stop';
+            toggleButton.style.display = 'inline';
+            startButton.style.display = 'none';
+
+            if (remainingTime <= 0) {
+                const minutes = parseInt(minutesInput.value, 10);
+                const seconds = parseInt(secondsInput.value, 10);
+                remainingTime = (minutes * 60 + seconds) * 1000;
+            }
+
+            updateMovementInterval();
+            countdown();
+        }
+    }
+
+    function stopExercise(completed = false) {
+        clearInterval(movementInterval);
+        clearInterval(countdownInterval);
+        isPlaying = false;
+
+        if (completed) {
+            timerStatus.textContent = "Time's up!";
+            startButton.style.display = 'inline'; // Süre tamamlandýðýnda Start butonunu göster
+            toggleButton.style.display = 'none'; // Süre tamamlandýðýnda Resume butonunu gizle
+        } else {
+            toggleButton.textContent = 'Resume';
+            toggleButton.style.display = 'inline'; // Duraklatýldýðýnda Resume butonunu göster
+            startButton.style.display = 'none'; // Duraklatýldýðýnda Start butonunu gizle
+        }
+
+        // Süre tamamlandýðýnda veya duraklatýldýðýnda yapýlan iþlemler
+    }
+
+    function countdown() {
+        clearInterval(countdownInterval);
+        countdownInterval = setInterval(() => {
+            if (remainingTime > 0) {
+                remainingTime -= 1000;
+                updateTimerDisplay();
+            } else {
+                clearInterval(countdownInterval);
+                clearInterval(movementInterval);
+                isPlaying = false;
+                stopExercise(true); // Süre tamamlandýðýnda stopExercise fonksiyonunu çaðýr ve tamamlandý olarak iþaretle
+            }
+        }, 1000);
+    }
+
+    startButton.addEventListener('click', startExercise);
+
+    toggleButton.addEventListener('click', function () {
+        if (isPlaying) {
+            stopExercise(false);
+        } else {
+            startExercise();
+        }
+    });
+
+    speedRange.addEventListener('input', function () {
+        speedValue.textContent = speedRange.value;
+        if (isPlaying) updateMovementInterval();
+    });
+    </script>
+

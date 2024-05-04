@@ -1,0 +1,135 @@
+@{
+    Layout = "~/Views/Shared/_ExerciseLayout.cshtml";
+}
+
+<div id="sentence-display"></div>
+<input type="text" id="user-input"  placeholder="Cümleyi giriniz..." >
+<br />
+<button onclick="checkAnswer()">Check!</button>
+<button onclick="finishExercise()">Finish</button> <!-- Bitir butonu eklendi -->
+
+<div id="feedback" class="oyun-mesaj"></div>
+<div id="score"></div>
+
+<!-- Score Modal -->
+<div id="scoreModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="finalScore">Your Total Score: 0</h2>
+        <button onclick="goHome()">HomePage</button>
+        <button onclick="loadNext()">Next <i class="bi bi-arrow-right-circle"></i></button>
+    </div>
+</div>
+
+
+<script>
+    let currentSentenceIndex = 0;
+    let score = 0;
+    let difficulty = 1; // Başlangıç zorluk seviyesi
+    let correctAnswers = 0; // Doğru cevap sayısı
+
+    // Kullanıcının tarayıcı dilini al veya varsayılan olarak "tr-TR" ayarla
+    let language = navigator.language || "en-US";
+
+    function loadSentences() {
+        fetch(`/Exercise/GetSentences?language=${language}&difficulty=${difficulty}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status && data.status === "completed") {
+                    // Eğer cümle kalmadıysa
+                    finishExercise();
+                } else {
+                    sentences = data;
+                    currentSentenceIndex = 0; // Index'i sıfırla
+                    displaySentence();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displaySentence() {
+        if (currentSentenceIndex < sentences.length) {
+            document.getElementById('sentence-display').textContent = sentences[currentSentenceIndex];
+            setTimeout(() => {
+                document.getElementById('sentence-display').textContent = "";
+            }, 2000);
+        } else {
+            finishExercise();
+        }
+    }
+
+    function checkAnswer() {
+        let userInput = document.getElementById('user-input').value;
+        let formattedUserInput = formatSentence(userInput);
+        let formattedCorrectSentence = formatSentence(sentences[currentSentenceIndex]);
+
+        if (formattedUserInput === formattedCorrectSentence) {
+            // Her doğru cevap için, zorluk seviyesi * 10 formülü kullanılarak puan hesapla ve toplam puana ekle
+            score += difficulty * 10; // Zorluk seviyesine göre puan hesaplama
+            correctAnswers++;
+            document.getElementById('feedback').textContent = "True!";
+            if (correctAnswers >= 3) { // Herhangi 3 doğru cevapta zorluk seviyesini artır
+                difficulty++;
+                correctAnswers = 0; // Doğru cevap sayacını sıfırla
+                loadSentences(); // Yeni zorluk seviyesi ile cümleleri yeniden yükle
+            }
+        } else {
+            document.getElementById('feedback').textContent = "False!";
+        }
+
+        currentSentenceIndex++;
+        document.getElementById('user-input').value = "";
+        if (currentSentenceIndex >= sentences.length) { // Mevcut zorlukta cümleler bittiğinde
+            loadSentences(); // Yeni cümleleri yükle
+        } else {
+            displaySentence(); // Sonraki cümleyi göster
+        }
+    }
+
+
+    document.getElementById('user-input').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            checkAnswer();
+        }
+    });
+
+    function formatSentence(sentence) {
+        let noPunctuation = sentence.replace(/[.,!?;:]/g, "");
+        return noPunctuation.toLowerCase().trim();
+    }
+
+    window.onload = loadSentences;
+
+    function finishExercise() {
+        showScoreModal(); // Modalı göster
+
+        // Egzersizi bitir ve mevcut puanı göster
+        document.getElementById('sentence-display').textContent = "Exercise Completed!";
+        document.getElementById('user-input').style.display = 'none'; // Kullanıcı girişini gizle
+        document.getElementById('score').textContent = `Your Total Score: ${score}`; // Puanı göster
+        // "Tahmin Et" ve "Bitir" butonlarını gizle
+        document.querySelectorAll('.oyun-buton').forEach(button => button.style.display = 'none');
+    }
+
+    function showScoreModal() {
+        document.getElementById('finalScore').textContent = `Your Total Score: ${score}`;
+        document.getElementById('scoreModal').style.display = "block";
+    }
+
+    // Modal kapatma işlevi
+    document.getElementsByClassName("close")[0].onclick = function () {
+        document.getElementById('scoreModal').style.display = "none";
+    }
+
+    // Ana Sayfa'ya yönlendirme işlevi
+    function goHome() {
+        window.location.href = '@Url.Action((string)ViewBag.Source, "Exercise")'; // Ana sayfa URL'nizi buraya ekleyin
+    }
+
+    var nextExerciseUrl = '@Url.Action("ShowExercise", "Exercise", new { id = ViewBag.NextId, source = (string)ViewBag.Source })';
+
+    function loadNext() {
+        window.location.href = nextExerciseUrl;
+    }
+
+</script>

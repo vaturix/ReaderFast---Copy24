@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Practices";
+}
+@model IEnumerable<ReaderFast.webui.ViewModels.PracticeViewModel>
+
+@{
+    ViewData["Title"] = "Practice";
+}
+
+@{
+    ViewData["Title"] = "Speed Reading and Memory Exercises";
+}
+<section id="services" class="services section-bg vh-100">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Practice Exercises</h2>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+
+
+            <div class="row">
+                @foreach (var exercise in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@exercise.Name</h5>
+                                <p class="card-text">@exercise.Description</p>
+                                <a href="@Url.Action("ShowExercise", "Exercise", new { id = exercise.ExerciseExerciseDayId, source = "Practice" })" class="btn btn-primary">Go to Exercise</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,121 @@
+@{
+    Layout = "~/Views/Shared/_ExerciseLayout.cshtml";
+}
+
+<div id="displayArea"></div>
+<br />
+<div class="d-flex justify-content-between align-items-center mb-3 mt-5">
+    <select class="form-select form-select-lg col-4" id="storySelect">
+        <option value="">Story...</option>
+        <!-- Hikaye seçenekleri burada doldurulacak -->
+    </select>
+
+    <button id="controlButton">Start</button>
+
+    <div class="word-count col-4">
+        <label class="pt-2" for="groupSize">Word Count:</label>
+        <input type="number" id="groupSize" value="1" class="form-control" style="width: 4rem;">
+    </div>
+</div>
+
+<br />
+<div class="speed-control">
+    <label for="speedSlider">Words per Minute:</label>
+    <input type="range" id="speedSlider" min="100" max="9999" step="10" value="300" oninput="syncSpeedInputWithSlider()">
+    <input style="width: 5rem" type="number" id="speedInput" min="100" max="9999" step="10" value="300" oninput="syncSpeedSliderWithInput()">
+    <span id="speedDisplay">wpm</span>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchStories();
+    });
+
+    let timeoutHandle; // Global timeout handle for stopping the interval
+    let isPaused = false; // Global state to track whether the display is paused
+    let currentIndex = 0; // Current index of the word
+    let words = []; // Words of the story
+
+    function fetchStories() {
+        fetch('/Exercise/ListStories')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('storySelect');
+                select.innerHTML = '<option value="">Story...</option>';
+                data.forEach(story => {
+                    let option = new Option(story.title, story.id);
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching stories:', error));
+    }
+
+    function syncSpeedInputWithSlider() {
+        const sliderValue = document.getElementById('speedSlider').value;
+        document.getElementById('speedInput').value = sliderValue;
+        updateSpeedDisplay(sliderValue);
+    }
+
+    function syncSpeedSliderWithInput() {
+        const inputValue = document.getElementById('speedInput').value;
+        document.getElementById('speedSlider').value = inputValue;
+        updateSpeedDisplay(inputValue);
+    }
+
+    function updateSpeedDisplay(speed) {
+        document.getElementById('speedDisplay').textContent = ' wpm';
+    }
+
+    function controlDisplay() {
+        const controlButton = document.getElementById('controlButton');
+        if (controlButton.textContent === "Start" || controlButton.textContent === "Resume") {
+            controlButton.textContent = "Pause";
+            isPaused = false;
+            if (!words.length) {
+                fetchAndStartDisplay();
+            } else {
+                displayNextGroup();
+            }
+        } else {
+            controlButton.textContent = "Resume";
+            clearTimeout(timeoutHandle);
+            isPaused = true;
+        }
+    }
+
+    function displayNextGroup() {
+        if (currentIndex < words.length && !isPaused) {
+            const groupSize = parseInt(document.getElementById('groupSize').value);
+            const wpm = parseInt(document.getElementById('speedInput').value);
+            const delay = 60000 / wpm * groupSize;
+
+            let group = words.slice(currentIndex, currentIndex + groupSize).join(' ');
+            document.getElementById('displayArea').textContent = group;
+            currentIndex += groupSize;
+
+            timeoutHandle = setTimeout(displayNextGroup, delay);
+        } else if (currentIndex >= words.length) {
+            // When the text ends, reset for a possible restart
+            document.getElementById('controlButton').textContent = "Start";
+            isPaused = false;
+            currentIndex = 0;
+            words = [];
+        }
+    }
+
+    function fetchAndStartDisplay() {
+        const selectedStoryId = document.getElementById('storySelect').value;
+        if (selectedStoryId) {
+            fetch(`/Exercise/GetStoryContent?storyId=${selectedStoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    words = data.content.split(' ');
+                    currentIndex = 0;
+                    displayNextGroup();
+                })
+                .catch(error => console.error('Error fetching story content:', error));
+        }
+    }
+
+    document.getElementById('controlButton').addEventListener('click', controlDisplay);
+    updateSpeedDisplay(document.getElementById('speedSlider').value); // Initial speed display update
+</script>

@@ -1,0 +1,80 @@
+﻿@model ActivationEmailModel
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Activation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: #1e64ff;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .email-body {
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .email-footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .btn-activate {
+            display: inline-block;
+            background-color: #1e64ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h2>Welcome to ReaderFast!</h2>
+        </div>
+        <div class="email-body">
+            <p>Hi Reader,</p>
+            <p>Thanks for signing up! We're excited to have you on board. To get started, please activate your account by clicking the button below:</p>
+            <p style="text-align: center;"><a href="@Model.CallbackUrl" class="btn-activate">Activate Account</a></p>
+            <p>If you're having trouble clicking the "Activate Account" button, copy and paste the URL below into your web browser:</p>
+
+            <p><a href="@Model.CallbackUrl">@Model.CallbackUrl</a></p>
+       
+
+            <p>If you have any questions, feel free to <a href="mailto:support@readerfast.com">email us</a>.</p>
+            <p>If you sign up for this account, no further action is required.</p>
+        </div>
+        <div class="email-footer">
+            <p>&copy; 2024 ReaderFast. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

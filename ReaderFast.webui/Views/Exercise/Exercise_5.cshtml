@@ -1,0 +1,159 @@
+﻿@{
+    Layout = "~/Views/Shared/_ExerciseLayout.cshtml";
+}
+
+<style>
+    #squareSpeedRange {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 7.5px;
+        background: #c0c0c0;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+    }
+
+        #squareSpeedRange:hover {
+            opacity: 1;
+        }
+
+        #squareSpeedRange::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        #squareSpeedRange::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+</style>
+
+<div>
+    <div id="squareContainer">
+        <div class="square" id="topLeft"></div>
+        <div class="square" id="topRight"></div>
+        <div class="square" id="bottomLeft"></div>
+        <div class="square" id="bottomRight"></div>
+    </div>
+    <br>
+    <div class="time-settings">
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" value="02" min="0" max="20" style="margin-right: 0px;">
+        <label for="seconds">:</label>
+        <input type="number" id="seconds" value="00" min="0" max="59">
+    </div>
+    <div class="speed-control">
+        <label for="squareSpeedRange">Speed:</label>
+        <span id="speedValue">5</span>
+        <input type="range" id="squareSpeedRange" min="1" max="10" value="5" style="width: 100%;">
+    </div>
+    <br>
+    <div class="button-group" style="display: flex; justify-content: center; gap: 10px;">
+        <button id="startButton" style="display: inline-block;">Start</button>
+        <button id="toggleButton" style="display: none;">Stop</button>
+    </div>
+
+    <div id="timerStatus">Remaining time: </div>
+</div>
+<script>
+    let squares = document.querySelectorAll('.square');
+    let startButton = document.getElementById('startButton');
+    let toggleButton = document.getElementById('toggleButton');
+    let squareSpeedRange = document.getElementById('squareSpeedRange');
+    let speedValueSpan = document.getElementById('speedValue');
+    let timerStatus = document.getElementById('timerStatus');
+    let minutesInput = document.getElementById('minutes');
+    let secondsInput = document.getElementById('seconds');
+    let isPlaying = false;
+    let remainingTime;
+    let countdownInterval;
+    let squareInterval;
+    let currentSquare = 0; // Geçerli karenin indexini tutacak değişken
+
+    function animateSquare() {
+        squares.forEach((square, index) => {
+            // Tüm kareleri küçült
+            square.style.transform = 'scale(1)';
+        });
+        // Geçerli kareyi büyüt
+        squares[currentSquare].style.transform = 'scale(3)';
+
+        // Sonraki kareye geç
+        currentSquare = (currentSquare + 1) % squares.length;
+    }
+
+    function startExercise(resume = false) {
+        if (!resume) {
+            const minutes = parseInt(minutesInput.value, 10);
+            const seconds = parseInt(secondsInput.value, 10);
+            remainingTime = (minutes * 60 + seconds) * 1000;
+        }
+
+        updateTimerDisplay(remainingTime); // Zamanlayıcıyı güncelle
+
+        countdownInterval = setInterval(() => {
+            remainingTime -= 1000;
+            if (remainingTime <= 0) {
+                clearInterval(countdownInterval);
+                stopExercise(true); // Süre bittiğinde durdur
+            } else {
+                updateTimerDisplay(remainingTime);
+            }
+        }, 1000);
+
+        squareInterval = setInterval(animateSquare, (11 - squareSpeedRange.value) * 100);
+        toggleButton.textContent = 'Stop';
+        toggleButton.style.display = 'inline-block'; // Toggle button görünür yap
+        startButton.style.display = 'none'; // Start button gizle
+        isPlaying = true;
+    }
+
+    function stopExercise(completed = false) {
+        clearInterval(squareInterval);
+        clearInterval(countdownInterval);
+        isPlaying = false;
+        if (completed) {
+            startButton.style.display = 'inline-block'; // Süre tamamlandığında Start butonu tekrar göster
+            toggleButton.style.display = 'none'; // Toggle button gizle
+            timerStatus.innerHTML = "Time's up!";
+        } else {
+            toggleButton.textContent = 'Resume'; // Toggle buton metnini 'Resume' yap
+            toggleButton.style.display = 'inline-block'; // Toggle butonu tekrar göster
+
+        }
+    }
+
+    function updateTimerDisplay(time) {
+        let minutes = Math.floor(time / 60000);
+        let seconds = Math.floor((time % 60000) / 1000);
+        timerStatus.innerHTML = `Remaining time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    startButton.addEventListener('click', () => startExercise());
+    toggleButton.addEventListener('click', () => {
+        if (isPlaying) {
+            stopExercise();
+        } else {
+            toggleButton.style.display = 'none'; // Resume yapmadan önce Toggle butonunu gizle
+            startButton.style.display = 'inline-block'; // Start butonunu göster
+
+            startExercise(true);
+        }
+    });
+
+    squareSpeedRange.addEventListener('input', () => {
+        speedValueSpan.textContent = squareSpeedRange.value;
+        if (isPlaying) {
+            clearInterval(squareInterval);
+            squareInterval = setInterval(animateSquare, (11 - squareSpeedRange.value) * 100);
+        }
+    });
+</script>

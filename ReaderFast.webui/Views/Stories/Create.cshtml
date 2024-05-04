@@ -1,0 +1,21 @@
+﻿@model ReaderFast.webui.ViewModels.StoryViewModel
+
+<form asp-action="Create">
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content"></textarea>
+    </div>
+    <div>
+        <label asp-for="Difficulty"></label>
+        <textarea asp-for="Difficulty"></textarea>
+    </div>
+    <div>
+        <label asp-for="Language"></label>
+        <textarea asp-for="Language"></textarea>
+    </div>
+    <button type="submit">Add Story</button>
+</form>

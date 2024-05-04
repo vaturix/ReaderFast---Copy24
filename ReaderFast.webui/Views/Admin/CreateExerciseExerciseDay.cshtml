@@ -1,0 +1,64 @@
+﻿@model ReaderFast.webui.ViewModels.ExerciseExerciseDayViewModel
+
+@{
+    ViewData["Title"] = "Create ExerciseExerciseDay";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="CreateExerciseExerciseDay" method="post">
+    <div class="form-group">
+        <label asp-for="ExerciseId" class="control-label"></label>
+        <input asp-for="ExerciseId" class="form-control" />
+        <span asp-validation-for="ExerciseId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ExerciseDayId" class="control-label"></label>
+        <input asp-for="ExerciseDayId" class="form-control" />
+        <span asp-validation-for="ExerciseDayId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SequenceNumber" class="control-label"></label>
+        <input asp-for="SequenceNumber" class="form-control" />
+        <span asp-validation-for="SequenceNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ExerciseId</th>
+            <th>Exercise</th>
+            <th>ExerciseDayId</th>
+            <th>Exercise Day</th>
+            <th>Sequence Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ExerciseExerciseDays)
+        {
+            <tr>
+                <td>@item.ExerciseId</td>
+                <td>@item.Exercise.Name</td>
+                <td>@item.ExerciseDayId</td>
+                <td>@item.ExerciseDay.DayNumber</td> <!-- ExerciseDay nesnesinin DayNumber özelliği -->
+                <td>@item.SequenceNumber</td>
+                <td>
+
+                    <a asp-action="DeleteExerciseExerciseDay" asp-route-id="@item.Id">Delete</a>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,393 @@
+﻿
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 40px;
+    text-align: center;
+    margin: 0;
+}
+
+
+
+
+
+
+#container {
+    width: 100%;
+    height: 50vh;
+    border: 2px solid black;
+   
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Tablet cihazlar için */
+@media (max-width: 768px) {
+    #eyecontainer {
+        height: 60vh; /* Ekranın yüksekliğinin %60'ı */
+    }
+}
+
+/* Mobil cihazlar için */
+@media (max-width: 480px) {
+    #eyecontainer {
+        height: 70vh; /* Ekranın yüksekliğinin %70'i */
+    }
+}
+
+
+/* Egzersiz 1*/
+
+
+
+/* Genel Stiller */
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.word-count {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* İstediğiniz boşluğu buradan ayarlayabilirsiniz */
+}
+
+/* Mobil görünümde butonlar yatay sıralansın */
+@media (max-width: 768px) {
+    .d-flex {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .form-select-lg, .btn-primary, .word-count {
+        flex: 1; /* Elementlere eşit genişlik ver */
+        margin: 0 5px; /* Sağ ve sol boşluk */
+    }
+
+ 
+}
+
+/* Daha küçük ekranlarda (480px altı) düzenlemeler */
+@media (max-width: 480px) {
+    .d-flex {
+        flex-direction: column; /* Elementleri dikey olarak sırala */
+    }
+
+    .form-select-lg, .btn-primary, .word-count {
+        width: 100%; /* Elementlerin genişliğini %100 yap */
+        margin: 5px 0; /* Üst ve alt boşluk */
+    }
+}
+
+
+
+
+
+#storySelect {
+    width: 33%;
+}
+
+.form-select-lg, #groupSize, #speedInput {
+    border-radius: 20px; /* Yuvarlak köşeler */
+    border: 1px solid #ced4da; /* Kenarlık rengi */
+    padding: .375rem .75rem; /* İç boşluk */
+    transition: all 0.3s ease-in-out; /* Pürüzsüz geçiş efekti */
+}
+
+#speedSlider, #speedRange {
+    -webkit-appearance: none; /* Tarayıcı öntanımlı stilini kaldır */
+    width: 100%; /* Tam genişlik */
+    height: 15px; /* Slider yüksekliği */
+    border-radius: 7.5px; /* Yuvarlak köşeler */
+    background: #c0c0c0; /* Arka plan rengi */
+    outline: none; /* Odaklanma kenarlığını kaldır */
+    opacity: 0.7; /* Saydamlık */
+    transition: opacity .2s; /* Pürüzsüz geçiş efekti */
+}
+
+.speed-control {
+    display: flex; /* Flexbox kullanarak içerikleri yan yana sırala */
+    align-items: center; /* İçerikleri dikey eksende ortala */
+    gap: 10px; /* İçerikler arasında boşluk bırak */
+}
+
+    .speed-control label, .speed-control span {
+        margin-right: 0px; /* Etiket ve span arasında boşluk bırak */
+    }
+
+#speedInput {
+    width: 5rem; /* Input genişliğini ayarla */
+}
+
+#speedSlider:hover, #speedRange:hover {
+    opacity: 1; /* Fare ile üzerine gelindiğinde saydamlığı artır */
+}
+
+#speedSlider::-webkit-slider-thumb, #speedRange::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Tarayıcı öntanımlı stilini kaldır */
+    appearance: none;
+    width: 25px; /* Slider thumb genişliği */
+    height: 25px; /* Slider thumb yüksekliği */
+    border-radius: 50%; /* Daire şeklinde */
+    background: #007bff; /* Arka plan rengi */
+    cursor: pointer; /* İmleç stilini değiştir */
+}
+
+#speedSlider::-moz-range-thumb, #speedRange::-moz-range-thumb {
+    width: 25px; /* Slider thumb genişliği */
+    height: 25px; /* Slider thumb yüksekliği */
+    border-radius: 50%; /* Daire şeklinde */
+    background: #007bff; /* Arka plan rengi */
+    cursor: pointer; /* İmleç stilini değiştir */
+}
+
+#displayArea {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Hafif gri arka plan */
+    border: 1px solid #ced4da; /* Kenarlık rengi */
+    border-radius: 10px; /* Yuvarlak köşeler */
+    box-shadow: 0 4px 6px rgba(0,0,0,.1); /* Yumuşak gölge */
+    font-size: 1.5rem;
+    min-height: 80px;
+}
+
+button {
+    margin: 0 20px;
+    background-color: #007bff; /* Mavi arka plan rengi */
+    color: white; /* Beyaz metin rengi */
+    padding: 10px 20px; /* İç boşluk */
+    border: none; /* Kenarlık kaldır */
+    border-radius: 20px; /* Yuvarlak köşeler */
+    cursor: pointer; /* İmleç stilini değiştir */
+    transition: background-color .3s, box-shadow .3s; /* Pürüzsüz geçiş efekti */
+    outline: none; /* Odaklanma kenarlığını kaldır */
+    box-shadow: 0 2px 4px rgba(0,0,0,.2); /* Yumuşak gölge */
+}
+
+    button:hover {
+        background-color: #0056b3; /* Fare ile üzerine gelindiğinde arka plan rengini koyulaştır */
+        box-shadow: 0 4px 8px rgba(0,0,0,.3); /* Fare ile üzerine gelindiğinde gölgeyi artır */
+    }
+
+    button:active {
+        background-color: #004085; /* Butona basıldığında arka plan rengini daha da koyulaştır */
+        box-shadow: 0 2px 4px rgba(0,0,0,.2); /* Butona basıldığında gölgeyi azalt */
+    }
+
+
+    /*egzersiz 2*/
+
+#user-input {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Hafif gri arka plan */
+    border: 1px solid #ced4da; /* Kenarlık rengi */
+    border-radius: 20px; /* Yuvarlak köşeler */
+    box-shadow: 0 4px 6px rgba(0,0,0,.1); /* Yumuşak gölge */
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin-bottom: 20px;
+    
+}
+
+ 
+
+
+    #circle {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+
+
+
+
+
+
+.oyun-baslik {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.oyun-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.oyun-mesaj {
+    font-size: 18px;
+    color: #e74c3c;
+    text-align: center;
+}
+
+
+.oyun-buton {
+    display: inline-block;
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .oyun-buton:hover {
+        background-color: #2980b9;
+    }
+
+#sentence-display {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+#feedback {
+    margin-top: 20px;
+}
+
+#score {
+    margin-top: 10px;
+}
+
+.highlighted {
+    background-color: yellow;
+}
+
+/*//Exercise5*/
+
+.time-settings {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+    .time-settings label {
+        margin-right: 0px;
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .time-settings input[type="number"] {
+        width: 50px; /* İnput genişliğini ayarla */
+        padding: 5px 5px;
+        border-radius: 5px; /* Yuvarlak köşeler */
+        border: 1px solid #ced4da; /* Kenarlık rengi */
+        font-size: 16px;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+        .time-settings input[type="number"]:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+
+#squareContainer {
+    width: 100%;
+    height: 50vh;
+    border: 2px solid black;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.square {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#topLeft {
+    left: 10px;
+    top: 10px;
+}
+
+#topRight {
+    right: 10px;
+    top: 10px;
+}
+
+#bottomLeft {
+    left: 10px;
+    bottom: 10px;
+}
+
+#bottomRight {
+    right: 10px;
+    bottom: 10px;
+}
+
+/* Tablet cihazlar için */
+@media (max-width: 768px) {
+    #squareContainer {
+        height: 60vh;
+    }
+}
+
+/* Mobil cihazlar için */
+@media (max-width: 480px) {
+    #squareContainer {
+        height: 70vh;
+    }
+}
+
+/* egzzersiz 2 pop-up*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }

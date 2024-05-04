@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Speed Reading Exercises";
+}
+@model List<ExerciseDayViewModel>
+
+<section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h1>@Localizer["welcome"]</h1>
+
+            <h2>Exercises</h2>
+        </div>
+
+        <div class="row">
+            @foreach (var day in Model)
+            {
+                var isDayCompleted = day.Exercises.All(e => e.IsCompleted);
+                var dayTitleStyle = isDayCompleted ? "color:green;" : "";
+
+                <div class="col-xl-3 col-md-4 d-flex justify-content-center align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-box w-75">
+                        <div class="icon text-center">
+                            @if (day.ExerciseDay.IsDayPremium && !ViewBag.IsPremiumUser)
+                            {
+                                <i class="bi bi-file-lock"></i>
+                            }
+                            else if (isDayCompleted)
+                            {
+                                <i class="bi bi-check-circle" style="color:green;"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-eye"></i>
+                            }
+
+                        </div>
+                        <h4 class="text-center" data-toggle="collapse" data-target="#dayExercises-@day.ExerciseDay.Id">
+                            <a href="javascript:void(0)" style="@dayTitleStyle">Day @day.ExerciseDay.DayNumber</a>
+                        </h4>
+
+                        <div id="dayExercises-@day.ExerciseDay.Id" class="collapse">
+                            @foreach (var exerciseViewModel in day.Exercises)
+                            {
+                                var exercise = exerciseViewModel.Exercise;
+                                <p style="">@exercise.Name</p>
+
+                                @if (!ViewBag.IsPremiumUser && day.ExerciseDay.IsDayPremium)
+                                {
+                                    <a class="btn-get-started" href="/Membership/Checkout">
+                                        <i class="bi bi-lock" height="32"></i> Premium
+                                    </a>
+                                }
+                                else
+                                {
+                                    var buttonClass = exerciseViewModel.IsCompleted ? "btn-green-background" : "";
+                                    
+                                    <a href="@Url.Action("ShowExercise", "Exercise", new { id = exerciseViewModel.ExerciseExerciseDayId, source = "Index" })" class="btn-get-started @buttonClass">Go to Exercise</a>
+
+
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

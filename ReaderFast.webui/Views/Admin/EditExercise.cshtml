@@ -1,0 +1,43 @@
+﻿@model ReaderFast.webui.ViewModels.ExerciseViewModel
+
+@{
+    ViewData["Title"] = "Edit Exercise";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsPremium" />
+        <label class="form-check-label" asp-for="IsPremium"></label>
+        <span asp-validation-for="IsPremium" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsCompleted" />
+        <label class="form-check-label" asp-for="IsCompleted"></label>
+        <span asp-validation-for="IsCompleted" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ViewName" class="control-label"></label>
+        <input asp-for="ViewName" class="form-control" />
+        <span asp-validation-for="ViewName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

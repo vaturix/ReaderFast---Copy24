@@ -1,0 +1,12 @@
+﻿<form method="post">
+    <div class="form-group">
+        <label for="roles">Roles</label>
+        <select id="roles" name="selectedRole" class="form-control">
+            @foreach (var role in (SelectList)ViewData["AllRoles"])
+            {
+                <option value="@role.Value">@role.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Role</button>
+</form>

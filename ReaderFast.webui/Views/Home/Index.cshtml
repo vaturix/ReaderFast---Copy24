@@ -1,0 +1,235 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Fast Reading & Memory Enhancement Exercises";
+}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+        <div class="row">
+           
+            <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                <h1>@Localizer["Increase your reading speed with ReaderFast"]</h1>
+                <h2>@Localizer["Improve your reading and understanding speed with eye and memory exercises"]</h2>
+                <div class="d-flex justify-content-center justify-content-lg-start">
+                    <a href="/Exercise/Index" class="btn-get-started scrollto">@Localizer["Get Started"]</a>
+
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+                <img src="~/lib/img/book1.webp" class="img-fluid animated" alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+   <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+            <h2>@Localizer["Why Should We Read Faster?"]</h2>
+            </div>
+
+            <div class="row content">
+                <div class="col-lg-6">
+                    <p>
+                    @Localizer["Just as physical exercises develop the body, reading develops the mind. Reading quickly and effectively is useful in every aspect of your daily life."]
+                    </p>
+                    <ul>
+                    <li><i class="bi bi-check2-all"></i> @Localizer["Solving long exams faster"]</li>
+                    <li><i class="bi bi-check2-all"></i> @Localizer["Studying more efficiently"]</li>
+                    <li><i class="bi bi-check2-all"></i> @Localizer["Saving time"]</li>
+                    <li><i class="bi bi-check2-all"></i> @Localizer["Thinking faster and more flexible"]</li>
+                    <li><i class="bi bi-check2-all"></i> @Localizer["Analysis-Synthesis-Analytical thinking"]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section><!-- End About Us Section -->
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us section-bg">
+        <div class="container" data-aos="fade-up">
+     <div class="row">
+                <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+                    <div class="content">
+                    <h3>@Localizer["What are speed reading exercises?"]</h3>            
+                    </div>
+                    <div class="accordion-list">
+                        <ul>
+                            <li>
+                            <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span> @Localizer["What are the benefits of eye and memory exercises?"]<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                                <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
+                                    @Localizer["It allows your eye muscles to develop and move faster"]<br />
+                                @Localizer["The rhythmic movement of the eye is brought under control"]<br />
+                                @Localizer["Active visual field expansion"]<br />
+                                @Localizer["Increasing your agility-comprehension-perception"]
+                               </div>
+                            </li>
+                            <li>
+                            <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> @Localizer["How will we use the exercises?"] <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                                <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
+                                    <p>
+                                    @Localizer["You must do all the exercises in the Exercises category every day for 21 days, taking a total of 30 minutes."]"
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                            <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span> @Localizer["What should we do in addition to these exercises?"]<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                                <div id="accordion-list-3" class="collapse" data-bs-parent=".accordion-list">
+                                    <p>
+                                    @Localizer["After doing the exercises, you need to read a book for at least 30 minutes every day."]"
+                                    </p>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style='background-image: url("lib/img/book2.webp");' data-aos="zoom-in" data-aos-delay="150">&nbsp;</div>
+            </div>
+
+        </div>
+    </section><!-- End Why Us Section -->
+    <!-- ======= Skills Section ======= -->
+    <section id="skills" class="skills">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row">
+                <div class="col-lg-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
+                    <img src="~/lib/img/skills.webp" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left" data-aos-delay="100">
+                <h3>@Localizer["Increase your reading speed day by day"]</h3>
+                    <p class="fst-italic">
+                    @Localizer["If you do the exercises consistently every day, you will improve your reading speed."]
+                    </p>
+
+                    <div class="skills-content">
+
+                        <div class="progress">
+                            <span class="skill">@Localizer["in 7 days"] <i class="val">1.25-1.5x</i></span>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                        <span class="skill">@Localizer["in 14 days"] <i class="val">1.5-2x</i></span>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                        <span class="skill">@Localizer["in 21 days"] <i class="val">2-3x</i></span>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                       
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Skills Section -->
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing d-none">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>@Localizer["Pricing"]</h2>
+            <p>@Localizer["Become a premium member for faster development."]</p>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="box">
+                        <h3>@Localizer["Free Plan"]</h3>
+                        <h4><sup>$</sup>0<span>@Localizer["per year"]</span></h4>
+                        <ul>
+                        <li><i class="bi bi-check2"></i> @Localizer["basic eye exercises"]</li>
+                        <li class="na"><i class="bi bi-x"></i> <span> @Localizer["Advanced eye exercises"]</span></li>
+                        <li class="na"><i class="bi bi-x"></i> <span>@Localizer["Memory exercises"]</span></li>
+                        <li class="na"><i class="bi bi-x"></i> <span>@Localizer["Ad-free"]</span></li>
+                        </ul>
+                        <a href="/Exercise/Index" class="buy-btn">@Localizer["Get Started"]</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+                    <div class="box featured">
+                        <h3>@Localizer["Premium Plan"]</h3>
+                    <h4><sup>$</sup>@ViewData["Price"]<span>@Localizer["per year"]</span></h4>
+                    <ul>
+                        <li><i class="bi bi-check2"></i> @Localizer["basic eye exercises"]</li>
+                        <li><i class="bi bi-check2"></i> @Localizer["Advanced eye exercises"]</li>
+                        <li><i class="bi bi-check2"></i> @Localizer["Memory exercises"]</li>
+                        <li><i class="bi bi-check2"></i> @Localizer["Ad-free"]</li>
+                          
+                        </ul>
+                    <a class="buy-btn" href="/Membership/Checkout">@Localizer["Get Started"]</a>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </section><!-- End Pricing Section -->
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+            <h2>@Localizer["Frequently Asked Questions"]</h2>
+            </div>
+
+            <div class="faq-list">
+                <ul>
+                    <li data-aos="fade-up" data-aos-delay="100">
+                    <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1"> <i class="bi bi-question-circle"></i> @Localizer["Is there a refund?"]<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                        <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
+                            <p>
+                                @Localizer["Unfortunately we cannot provide refunds."]
+                            </p>
+                        </div>
+                    </li>
+
+                    <li data-aos="fade-up" data-aos-delay="200">
+                    <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed"> <i class="bi bi-question-circle"></i> @Localizer["Is annual membership recurring?"]<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                        <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
+                            <p>
+                            @Localizer["No, there is a one-time fee for premium membership. If you wish, you can become a member again after a year."]
+                            </p>
+                        </div>
+                    </li>
+
+                <li data-aos="fade-up" data-aos-delay="300">
+                    <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed"> <i class="bi bi-question-circle"></i> @Localizer["How can I contact you?"]<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></a>
+                    <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
+                        <p>
+                                @Localizer["You can send an e-mail to info@readerfast.com. We will get back to you as soon as possible."]
+                        </p>
+                    </div>
+                </li>
+                </ul>
+            </div>
+
+        </div>
+    </section><!-- End Frequently Asked Questions Section -->
+    <!-- ======= Footer ======= -->
+
+
+

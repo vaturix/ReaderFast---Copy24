@@ -1,0 +1,156 @@
+@{
+    Layout = "~/Views/Shared/_ExerciseLayout.cshtml";
+}
+
+<style>
+    
+
+    .form-row {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-bottom: 1rem;
+    }
+
+        .form-row label {
+            margin-right: 10px;
+        }
+
+    .form-control, .form-select, .btn {
+        border-radius: 20px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-select-lg {
+        width: 100%;
+    }
+
+    .form-control {
+        width: calc(100% - 200px); /* Adjust based on your layout */
+        max-width: 100px; /* Input field max width */
+    }
+
+  
+
+    #content {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,.1);
+        font-size: 1.5rem;
+        min-height: 80px;
+    }
+</style>
+
+<div class="container">
+    <select id="storySelect" class="form-select form-select-lg mb-3">
+        <option value="">Select a story...</option>
+        <!-- Story options will be populated here -->
+    </select>
+
+    <div id="content" class="mb-3"></div>
+
+    <div class="form-row">
+        <label for="wordsPerMinute">Words Per Minute:</label>
+        <input type="number" id="wordsPerMinute" class="form-control" value="120" max="9999">
+    </div>
+
+    <div class="form-row">
+        <label for="wordCount">Words Highlighted at a Time:</label>
+        <input type="number" id="wordCount" class="form-control" value="1" max="99">
+    </div>
+
+    <button id="actionBtn" class="">Start</button>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/Exercise/ListStories')
+            .then(response => response.json())
+            .then(data => {
+                const storySelect = document.getElementById('storySelect');
+                data.forEach(story => {
+                    const option = new Option(story.title, story.id);
+                    storySelect.add(option);
+                });
+            });
+    });
+
+    let isHighlighting = false;
+    let currentIndex = 0;
+    const storySelect = document.getElementById('storySelect');
+    const actionBtn = document.getElementById('actionBtn');
+    const contentDiv = document.getElementById('content');
+    const wordsPerMinuteInput = document.getElementById('wordsPerMinute');
+    const wordCountInput = document.getElementById('wordCount');
+    let words = [];
+
+    storySelect.addEventListener('change', function () {
+        const storyId = storySelect.value;
+        if (storyId) {
+            fetch(`/Exercise/GetStoryContent?storyId=${storyId}`)
+                .then(response => response.json())
+                .then(data => {
+                    words = data.content.split(' ');
+                    displayContent(); // İçeriği göster
+                });
+        }
+    });
+
+    actionBtn.addEventListener('click', function () {
+        if (!isHighlighting) {
+            startHighlighting();
+        } else {
+            pauseHighlighting();
+        }
+    });
+
+    function displayContent() {
+        contentDiv.innerHTML = ''; // İçeriği temizle
+        words.forEach(word => {
+            const wordSpan = document.createElement('span');
+            wordSpan.innerText = word + ' ';
+            contentDiv.appendChild(wordSpan);
+        });
+    }
+
+    function startHighlighting() {
+        actionBtn.textContent = 'Duraklat';
+        isHighlighting = true;
+
+        const intervalTime = (60000 / parseInt(wordsPerMinuteInput.value)) * parseInt(wordCountInput.value);
+
+        window.highlightInterval = setInterval(() => {
+            updateHighlighting();
+        }, intervalTime);
+    }
+
+    function pauseHighlighting() {
+        clearInterval(window.highlightInterval);
+        actionBtn.textContent = 'Başlat';
+        isHighlighting = false;
+    }
+
+    function updateHighlighting() {
+        const wordSpans = contentDiv.querySelectorAll('span');
+        wordSpans.forEach((span, index) => {
+            if (index >= currentIndex && index < currentIndex + parseInt(wordCountInput.value)) {
+                span.classList.add('highlighted');
+            } else {
+                span.classList.remove('highlighted');
+            }
+        });
+
+        currentIndex += parseInt(wordCountInput.value);
+        if (currentIndex >= words.length) {
+            clearInterval(window.highlightInterval);
+            actionBtn.textContent = 'Başlat';
+            isHighlighting = false;
+            currentIndex = 0; // Opsiyonel: İşlem bitince başa dön
+        }
+    }
+</script>

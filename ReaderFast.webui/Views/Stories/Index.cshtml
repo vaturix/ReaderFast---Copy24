@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ReaderFast.webui.ViewModels.StoryViewModel>
+
+@foreach (var story in Model)
+{
+    <div>
+        <h2>@story.Title</h2>
+        <p>@story.Content</p>
+    </div>
+}

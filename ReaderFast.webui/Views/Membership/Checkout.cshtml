@@ -1,0 +1,164 @@
+@{
+    ViewData["Title"] = "Become A Premium Member";
+}
+  @using Newtonsoft.Json;
+@{
+    var serializedMessage = TempData["message"] as string;
+    if (!string.IsNullOrEmpty(serializedMessage))
+    {
+        var alertMessage = JsonConvert.DeserializeObject<AlertMessage>(serializedMessage);
+
+        <div class="alert alert-@alertMessage.AlertType">
+            @alertMessage.Message
+        </div>
+    }
+}
+
+
+@model OrderModel
+<form method="POST" asp-controller="Membership" asp-action="Checkout">
+    <div id="checkout">
+
+   
+    <div class="container">
+       
+        <div class="row m-0">
+            <div class="col-md-7 col-12">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="row box-right">
+                            <div class="col-md-6 ps-0 ">
+                                <p class="ps-3 textmuted fw-bold h6 mb-0">PER YEAR</p>
+                                <p class="h1 fw-bold d-flex"> <span class=" fas fa-dollar-sign textmuted pe-1 h6 align-text-top mt-1"></span>$@ViewData["Price"]
+                                    
+                                </p>
+                                <p class="ms-3 px-2 bg-green">+10% since last month</p>
+                            </div>
+                            <div class="col-md-6">
+                                    <p class="p-blue fw-bold fs-5"> <span class="fas fa-circle pe-2"></span>@ViewData["Name"] </p>
+                               
+                                    <p class="p-org fw-bold fs-5"><span class="fas fa-circle pe-2"></span>@ViewData["Category"]</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 px-0">
+                        <div class="box-right">
+                            <div class="d-flex mb-2">
+                                    <p class="fw-bold">Invoice Information</p>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6 mb-2">
+                                    <label class="textmuted h8" asp-for="@Model.FirstName"></label>
+                                    <input asp-for="@Model.FirstName" class="form-control" placeholder="FirstName">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.LastName"></label>
+                                        <input asp-for="@Model.LastName" class="form-control" placeholder="LastName">
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.Address"></label>
+                                        <input asp-for="@Model.Address" class="form-control" placeholder="Address">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.Country"></label>
+                                        <input asp-for="@Model.Country" class="form-control" placeholder="Country">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.City"></label>
+                                        <input asp-for="@Model.City" class="form-control" placeholder="City">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.Email"></label>
+                                        <input asp-for="@Model.Email" class="form-control" placeholder="Example@example.com">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                        <label class="textmuted h8" asp-for="@Model.Phone"></label>
+                                        <input asp-for="@Model.Phone" class="form-control" placeholder="+1XXXXXXX">
+                                </div>
+
+                                <div class="col-6 mb-2">
+                                    <label class="textmuted h8" asp-for="@Model.IdentityNumber"></label>
+                                    <input asp-for="@Model.IdentityNumber" class="form-control" placeholder="11111111111">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-12 ps-md-5 p-0 ">
+                <div class="box-left">
+                   
+                    <div class="">
+                        <p class="h7 fw-bold mb-1">Pay this Invoice</p>
+                        <p class="textmuted h8 mb-2">Make payment for this invoice by filling in the details</p>
+                        <div class="form">
+                            <div class="row">
+
+                                    <div class="col-12">
+
+                                        <label class="d-none" asp-for="@Model.CardName"></label>
+                                        <input asp-for="@Model.CardName" class="form-control my-3" placeholder="Firstname Lastname">
+                                </div>
+
+                                <div class="col-12">
+                                        <div class="card border-0">
+                                            <label class="d-none" asp-for="@Model.CardNumber"></label> <input asp-for="@Model.CardNumber" class="form-control ps-5" type="text"
+                                            placeholder="Card number"> <span class="far fa-credit-card"></span> </div>
+
+                                            
+                                </div>
+
+                                    <div class="  col-4">
+                                        <label class="d-none" asp-for="@Model.ExpirationMonth"></label> <input asp-for="@Model.ExpirationMonth" class="form-control my-3" type="text" placeholder="MM">
+                                </div>
+
+                                    <div class="col-4">
+                                        <label class="d-none" asp-for="@Model.ExpirationYear"></label> <input asp-for="@Model.ExpirationYear" class="form-control my-3" type="text" placeholder="YYYY">
+                                </div>
+
+                                    <div class="col-4">
+                                        <label class="d-none" asp-for="@Model.Cvc"></label> <input asp-for="@Model.Cvc" class="form-control my-3" type="text" placeholder="CVV">
+                                </div>
+
+                            </div>
+                                <div class="col-12 my-2 d-flex align-items-center">
+                                    <input asp-for="HasAgreedToSalesAgreement" type="checkbox" id="salesAgreement" required class="mx-2">
+                                    <label for="salesAgreement" class="mb-0">
+                                        <p class="text-muted h8 mb-0 d-inline">
+                                            I have read and agree to the <a href="/Support/SalesAgreement" target="_blank">Sales Agreement</a>
+                                        </p>
+                                    </label>
+                                </div>
+
+
+                                <button type="submit" class="w-100 btn btn-primary d-block h8 text-center">Pay $ @ViewData["Price"]</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</form>
+
+<script>
+    // Enable Pay button when checkbox is checked
+    document.getElementById('salesAgreement').addEventListener('change', function () {
+        document.getElementById('payButton').disabled = !this.checked;
+    });
+</script>
+
