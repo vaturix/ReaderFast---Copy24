@@ -25,7 +25,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
-builder.Services.AddTransient<EmailSender>(); // EmailSender sýnýfýnýz için yapýlandýrma
+builder.Services.AddTransient<EmailSender>(); 
 
 
 
@@ -47,7 +47,7 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-    .AddDataAnnotationsLocalization(); // Optional, if you want to localize data annotations
+    .AddDataAnnotationsLocalization(); 
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IdentityErrorDescriber, CustomIdentityErrorDescriber>();
